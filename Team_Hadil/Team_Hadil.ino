@@ -24,10 +24,10 @@ void setup() {
   pinMode(LT, INPUT);
   pinMode(hrt, INPUT);
   pinMode(hlt, INPUT);
-  analogWrite(ENA,70);
-  analogWrite(ENB,70);
-  Serial.write("Starting!");
-  Serial.begin (9600);
+  analogWrite(ENA,80)
+  ;
+  analogWrite(ENB,80);
+ 
   //Define inputs and outputs
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -38,7 +38,9 @@ void loop() {
    val2 = digitalRead(LT); 
    val11 = digitalRead(hrt); 
    val22 = digitalRead(hlt); 
-  digitalWrite(trigPin, LOW);
+  //Serial.print(val1);
+   Serial.print(val1);
+    digitalWrite(trigPin, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
@@ -46,32 +48,25 @@ void loop() {
    duration = pulseIn(echoPin, HIGH);
     cm = (duration/2) / 29.1;     
     Serial.println(cm);
-  if(cm > 26){ 
-    if((val1!=val2))
+   if(cm > 26){ 
+   if(val1==0 && val2==1&& val11==1 && val22==1)
       Fwd(); 
-    if((val1==1)&&(val2==1))
+    if(((val22==0)&&(val2==1)&& val11==1 )|| ( val22==1 && val2==1 && val11==1 && val1==1 ))
       Left();
-    if((val1==0)&&(val2==0))
+    if((val1==0 &&  val11==0 && val22==1)||( val22==1 && val2==0 && val11==1 && val1==0))
       Right();
-    if((val11==0)&&(val22==1)&&(val1==1)&&(val2==1))
-      Hard_Left();
-    if((val11==1)&&(val22==0)&&(val1==0)&&(val2==0))
-      Hard_Right();  
-  }else if(cm<26){
-    if((val1!=val2))
+   }
+   else if(cm<26){
+   if(val1==1 && val2==0 && val11==0 && val22==0)
       Fwd(); 
-    if((val1==0)&&(val2==0))
+    if(((val22==1)&&(val2==0)&& val11==0 )|| ( val22==0 && val2==0 && val11==0 && val1==0 ))
       Left();
-    if((val1==1)&&(val2==1))
+    if((val1==1 &&  val11==1 && val22==0)||( val22==0 && val2==1 && val11==0 && val1==1))
       Right();
-    if((val11==1)&&(val22==0)&&(val1==0)&&(val2==0))
-      Hard_Left();
-      delay(600);
-    if((val11==0)&&(val22==1)&&(val1==1)&&(val2==1))
-      Hard_Right(); 
-      delay(600); 
   }
 
+   
+  
 }
 void Fwd(){
   digitalWrite(IN1, HIGH);
@@ -102,20 +97,4 @@ void Stop(){
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
-}
-void Hard_Right(){
-  Fwd();
-delay(400);
-Right();
-delay(600);
-Stop (); 
-delay (70);
-}
-void Hard_Left(){
-  Fwd();
-delay(400);
-Left();
-delay(600);
-Stop (); 
-delay (70);
 }

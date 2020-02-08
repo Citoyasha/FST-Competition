@@ -12,6 +12,7 @@ int val1,val2,val11,val22;
 int trigPin = 12;    // Trigger
 int echoPin = 13;    // Echo
 long duration, cm;
+int c=0;  
 void setup() {
   Serial.begin(9600);
   pinMode(IN1, OUTPUT);
@@ -38,33 +39,37 @@ void loop() {
    val11 = digitalRead(hrt); 
    val22 = digitalRead(hlt); 
   //Serial.print(val2);
-   Serial.print(val1);
-   Fwd(); 
-   /* digitalWrite(trigPin, LOW);
+   Serial.print(val1); 
+   digitalWrite(trigPin, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
    duration = pulseIn(echoPin, HIGH);
-    cm = (duration/2) / 29.1;     
-  //  Serial.println(cm);
-   //  if(cm > 26){ 
-   if(val1==0 && val2==0&& val11==0 && val22==0)
+    cm = (duration/2) / 29.1;      
+   Serial.println(cm);
+   if (cm<26) c=1;
+     if(c!=1){ 
+  
+ if((val1==0 && val2==0&& val11==1 && val22==1)||(val1==1 && val2==1 && val11==1 && val22==1))
       Fwd(); 
-    if(((val22==1)&&(val2==0)&& val11==0 )|| ( val22==0 && val2==0 && val11==1 && val1==0 ))
+    if(((val22==0)&&(val2==0)&& val11==1 )|| ( val22==1 && val2==0 && val11==1 && val1==1 ))
       Left();
-    if((val1==0 &&  val11==1 && val22==1)||( val22==0 && val2==1 && val11==0 && val1==0))
-      Right();*/
-    // }
-     /*else if(cm<26){
-   if(val1==1 && val2==1 && val11==0 && val22==0)
+    if((val1==0 &&  val11==0 && val22==1)||( val22==1 && val2==1 && val11==1 && val1==0))
+      Right();
+
+      
+    }
+    if(c==1){
+   if((val1==1 && val2==1 && val11==0 && val22==0)||(val1==0 && val2==0 && val11==0 && val22==0))
       Fwd(); 
     if(((val22==1)&&(val2==1)&& val11==0 )|| ( val22==0 && val2==1 && val11==0 && val1==0 ))
       Left();
     if((val1==1 &&  val11==1 && val22==0)||( val22==0 && val2==0 && val11==0 && val1==1))
       Right();
+
     }
-*/
+
    
   
 }
@@ -80,13 +85,13 @@ void Back(){
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
 }
-void Right(){
+void Left() {
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
 }
-void Left(){
+void Right(){
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);

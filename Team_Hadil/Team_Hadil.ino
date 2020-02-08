@@ -12,6 +12,7 @@ int val1,val2,val11,val22;
 int trigPin = 12;    // Trigger
 int echoPin = 13;    // Echo
 long duration, cm;
+ int c=0;
 void setup() {
   Serial.begin(9600);
   pinMode(IN1, OUTPUT);
@@ -24,9 +25,8 @@ void setup() {
   pinMode(LT, INPUT);
   pinMode(hrt, INPUT);
   pinMode(hlt, INPUT);
-  analogWrite(ENA,80)
-  ;
-  analogWrite(ENB,80);
+  analogWrite(ENA,100);
+  analogWrite(ENB,100);
  
   //Define inputs and outputs
   pinMode(trigPin, OUTPUT);
@@ -39,7 +39,7 @@ void loop() {
    val11 = digitalRead(hrt); 
    val22 = digitalRead(hlt); 
   //Serial.print(val1);
-   Serial.print(val1);
+   Serial.println(val2);
     digitalWrite(trigPin, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin, HIGH);
@@ -47,17 +47,20 @@ void loop() {
   digitalWrite(trigPin, LOW);
    duration = pulseIn(echoPin, HIGH);
     cm = (duration/2) / 29.1;     
-    Serial.println(cm);
-   if(cm > 26){ 
-   if(val1==0 && val2==1&& val11==1 && val22==1)
+   // Serial.println(cm);
+
+ if (cm<26) c=1;
+   if(c!= 1){ 
+   if((val1==0 && val2==1 && val11==1 && val22==1)||(val1==1 && val2==0 && val11==1 && val22==1))
       Fwd(); 
     if(((val22==0)&&(val2==1)&& val11==1 )|| ( val22==1 && val2==1 && val11==1 && val1==1 ))
       Left();
     if((val1==0 &&  val11==0 && val22==1)||( val22==1 && val2==0 && val11==1 && val1==0))
       Right();
    }
-   else if(cm<26){
-   if(val1==1 && val2==0 && val11==0 && val22==0)
+   
+   if(c==1){
+   if((val1==1 && val2==0 && val11==0 && val22==0)||(val1==0 && val2==1 && val11==0 && val22==0))
       Fwd(); 
     if(((val22==1)&&(val2==0)&& val11==0 )|| ( val22==0 && val2==0 && val11==0 && val1==0 ))
       Left();
@@ -65,7 +68,6 @@ void loop() {
       Right();
   }
 
-   
   
 }
 void Fwd(){
@@ -98,3 +100,4 @@ void Stop(){
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
 }
+

@@ -25,8 +25,8 @@ void setup() {
   pinMode(LT, INPUT);
   pinMode(hrt, INPUT);
   pinMode(hlt, INPUT);
-  analogWrite(ENA,80);
-  analogWrite(ENB,80);
+  analogWrite(ENA,100);
+  analogWrite(ENB,100);
  
   //Define inputs and outputs
   pinMode(trigPin, OUTPUT);
